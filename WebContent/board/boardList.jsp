@@ -1,5 +1,21 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page import="java.sql.*" %>
+<%
+	Connection conn = null;
+	Statement stmt = null;
+	ResultSet rs = null;
+	try {
+		conn = DriverManager.getConnection(
+			"jdbc:oracle:thin:@localhost:1521:orcl", 
+			"scott", 
+			"1234"
+		);
+		stmt = conn.createStatement();
+		stmt.executeQuery("SELECT * FROM BOARD");
+		rs = stmt.getResultSet();
+
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -22,15 +38,15 @@
 		</select>
 	</td>
 	<td>
-		<input type="text" style="width: 95%" />
+		<input type="text" style="width: 99%" />
 	</td>
 	<td>
-		<input type="button" value="검색" />
-		<input type="button" value="등록" />
+		<input style="color: blue" type="button" value="검색" />
+		<input style="color: blue" type="button" value="등록" />
 	</td>
 </tr>
 </table>
-<table style="border: solid 1px; width: 500px;">
+<table style="border: solid 1px; width: 500px; height: 300px;">
 <tr>
 	<th width="50">No.</th>
 	<th width="200">제목</th>
@@ -41,13 +57,27 @@
 <tr>
 	<td colspan="5" align="center">조회된 결과가 없습니다.</td>
 </tr>
+<%
+	while(rs.next()) {
+%>
 <tr>
-	<td align="center">1</td>
-	<td>게시판 제목입니다.</td>
-	<td align="center">무리수</td>
-	<td align="center">3</td>
-	<td align="center">2020-04-05</td>
+	<td align="center"><%=rs.getString("NO")%></td>
+	<td><%=rs.getString("SUBJECT")%></td>
+	<td align="center"><%=rs.getString("NAME")%></td>
+	<td align="center"><%=rs.getString("READ_CNT")%></td>
+	<td align="center"><%=rs.getString("REGIST_DT")%></td>
 </tr>
+<% } %>
 </table>
 </body>
 </html>
+<%
+
+	} catch (SQLException e) {
+		out.println(e.getMessage());
+	} finally {
+		if (rs != null) rs.close();
+		if (stmt != null) stmt.close();
+		if (conn != null) conn.close();
+	}
+%>
