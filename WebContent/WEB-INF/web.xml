@@ -26,7 +26,7 @@
     <servlet-mapping>
     	<!-- 임의의 이름 생성 -->
         <servlet-name>BoardListServlet2</servlet-name>
-        <!-- servlet-class의 클래스를 매핑할 임의의 이름을 입력한다. 시작할 떈 '/' 붙여준다 -->
+        <!-- servlet-class의 클래스를 매핑할 임의의 이름을 입력한다. 시작할 땐 '/' 붙여준다 -->
         <url-pattern>/BoardListServlet2</url-pattern>
     </servlet-mapping>
 
